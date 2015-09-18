@@ -1,0 +1,17 @@
+extends ../layout
+
+block content
+	h1 #{title}
+	hr
+	div
+		form(name='addblog', action='/blog/add', method='POST')
+			p
+				input.form-control(type='text', name='blogTitle', placeholder='Title', required, autofocus)
+			p
+				textarea#text.form-control(rows=5, type='text', name='blogBody', placeholder='Body', required)
+			p
+				input.form-control(type='date', name='date', placeholder='Date', required)
+			p
+				input.form-control(type='author', name='author', placeholder='Author', required)
+			p
+				button.btn.btn-lg.btn-primary.btn-block(type='submit') Add Blog

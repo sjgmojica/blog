@@ -1,0 +1,30 @@
+extends ../layout
+
+block content
+	h1 Welcome to Blog App
+	hr 
+	p #{user.firstname}
+	p 
+		a(href='/user/#{user._id}') Update Profile
+	p 
+		a(href='/blog/add') Add Blog 
+	p 
+		a(href='/logout') Logout
+	br
+	p #{message}
+	p #{blogs}
+	if blogs && blogs.length > 0
+		ul
+			each blog, i in blogs
+				li
+					= blog.title
+					= blog.body
+					= blog.date
+					= blog.author
+					form(action='/blog/#{blog._id}', method='POST')
+						input(type='hidden', value='DELETE', name='_method')
+						div
+							button(type='submit').
+								Delete
+							p 
+								a(href='/blog/edit/#{blog._id}') Edit

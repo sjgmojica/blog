@@ -1,0 +1,21 @@
+extends layout
+
+block content
+	p General Account Settings
+	hr
+	p #{user}
+	form(name='updateprofile', action='/user/#{user._id}', method='POST')
+		p Firstname:
+			input(type='text', value='#{user.firstname}', name='firstname')
+		p Lastname:
+			input(type='text', value='#{user.lastname}', name='lastname')
+		p Email:
+			input(type='text', value='#{user.email}', name='email')
+		p Password:
+			input(type='text', value='#{user.password}', name='password')
+		p
+			input(type='hidden', value='PUT', name='_method')
+		p
+			button(type='submit').
+				Update
+
