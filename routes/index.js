@@ -57,8 +57,6 @@ router.get('/register', function(req, res) {
 router.post('/register', function(req, res) {
     req.checkBody("email", "Enter a valid email address").isEmail();
     req.checkBody("password", "Password required 8 characters").isLength(8);
-
-    console.log("VALIDATION HEHEHEHERERERER");
     var errors = req.validationErrors();
     if (errors) {
         console.log(errors);
@@ -89,7 +87,6 @@ router.get('/logout', function(req, res) {
 
 // GET new blog. render the new blog page
 router.get('/blog/add', function(req, res) {
-    //res.send(req.session.user._id);
     res.render('blog/new', { title: 'Add New Blog'});
 });
 
