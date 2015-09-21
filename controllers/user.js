@@ -36,7 +36,6 @@ var register = function(req, res) {
             res.send("There was a problem adding new users to database :: " + err);
         } else {
             console.log("POST new users ::" + user);
-            req.flash('login', 'Successfully added user');
             res.redirect('/login');
         }
     });
@@ -44,9 +43,6 @@ var register = function(req, res) {
 
 // Find users data by id from users collections then render the edit view page 
 var getProfile = function(req, res) {
-    console.log("=====");
-    console.log(req.param('id'));
-    console.log("=====");
     mongoose.model('User').findById(req.param('id'), function(err, user) {
         if (err) {
             console.log("GET error: problem on retirieving users id heheheh:: " + err);
