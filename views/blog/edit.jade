@@ -1,21 +1,24 @@
 extends ../layout
 
 block content
-	p #{title}
-	hr
-	p #{blog}
-	form(name='updateBlog', action='/blog/#{blog._id}', method='POST')
-		p Title:
-			input(type='text', value='#{blog.title}', name='blogTitle')
-		p Body:
-			input(type='text', value='#{blog.body}', name='blogBody')
-		p Date:
-			input(type='date', value='#{blog.date}', name='date')
-		p Author:
-			input(type='text', value='#{blog.author}', name='author')
-		p
-			input(type='hidden', value='PUT', name='_method')
-		p
-			button(type='submit').
-				Update
+  p #{title}
+  hr
+  p #{blog}
+  form(name='updateBlog', action='/blog/#{blog._id}', method='POST')
+    p Title:
+      input(type='text', value='#{blog.title}', name='blogTitle')
+    p Body:
+      input(type='text', value='#{blog.body}', name='blogBody')
+    p Date:
+      input(type='date', value='#{blog.date}', name='date')
+    p Author:
+      input(type='text', value='#{blog.author}', name='author')
+    p
+      input(type='hidden', value='PUT', name='_method')
+    p
+      button(type='submit') Update
+      &nbsp;
+      a(href='/blog')
+        button.btn.btn-primary(type='button') Cancel
+
 
