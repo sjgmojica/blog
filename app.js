@@ -4,7 +4,6 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var flash = require('connect-flash');
 var app = express();
 
 // DB connections and Schema
@@ -22,14 +21,8 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
-
-
-// flash middleware provide by connect-flash to store messages in session and displaying in templates
-app.use(flash());
-
-// routes
+ 
 var routes = require('./routes/index');
 app.use('/', routes);
 
