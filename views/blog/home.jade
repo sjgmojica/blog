@@ -1,31 +1,40 @@
 extends ../layout
 
 block content
-  h1 Welcome to Blog App
-  hr 
-  p #{user.firstname}
-  p 
-    a(href='/user/#{user._id}') Update Profile
-  p 
-    a(href='/blog/add') Add Blog 
-  p 
-    a(href='/logout') Logout
-  br
-  p #{message}
-  p #{blogs}
-  if blogs && blogs.length > 0
-  ul
-    each blog, i in blogs
-      li
-        = blog.title
-        br
-        = blog.body
-        br
-        = blog.date
-        br
-        = blog.author
-        form(action='/blog/#{blog._id}', method='POST')
-          input(type='hidden', value='DELETE', name='_method')
-          button(type='submit') Delete
-          &nbsp;
-          a(href='/blog/edit/#{blog._id}') Edit
+  nav.navbar.navbar-inverse.navbar-fixed-top
+    div.container
+      div.navbar-header
+        button(type='button', class='navbar-toggle collapsed')
+          span.sr-only Toggle navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        p.navbar-brand Welcome to Blog Apps #{user.firstname} 
+      div.navbar-collapse.collapse(id='navbar')
+        ul.nav.navbar-nav.pull-right
+          li
+            a(href='/user/#{user._id}') Update Profile
+          li
+            a(href='/blog/add') Add Blog
+          li
+            a(href='/logout') Logout
+  div.container
+    div(style='padding:100px 15px')
+      p #{message}
+      if blogs && blogs.length > 0
+        ul.list-group
+          each blog, i in blogs
+           li.list-group-item
+            = blog.title
+            br
+            = blog.body
+            br
+            = blog.date
+            br
+            = blog.author 
+            if user._id == blog.userId
+              form(action='/blog/#{blog._id}', method='POST')
+                input(type='hidden', value='DELETE', name='_method')
+                button(type='submit') Delete
+                &nbsp;
+                a(href='/blog/edit/#{blog._id}') Edit
