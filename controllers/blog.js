@@ -2,7 +2,6 @@ var mongoose = require('mongoose');
 
 // Save new blog post to blogs collections
 var addBlog = function(req, res) {
-    //res.send(req.session.user._id);
     mongoose.model('Blog').create({
         title : req.body.blogTitle,
         body : req.body.blogBody,
@@ -35,7 +34,6 @@ var blogList = function(req, res, cbblog) {
 
 // Find blog by id from blogs collections.If exists, the fetch data will display to edit page
 var getBlogById = function(req, res, cbblogOne) {
-    console.log("here")
     mongoose.model('Blog').findById(req.param('blog_id'), function(err, blog) {
         console.log("there")
         if (err) {
