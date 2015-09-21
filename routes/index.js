@@ -3,6 +3,7 @@ var router   = express.Router();
 var bodyParser = require('body-Parser');
 var methodOverride = require('method-override');
 var session  = require('express-session');
+var expressValidator = require('express-validator');
 var user = require('../controllers/user');
 var blog = require('../controllers/blog');
 
@@ -11,7 +12,8 @@ router.use(session({
 }));
 
 // Parsing the HTTP method for PUT and DELETE  
-router.use(bodyParser.urlencoded({ extended: true }))
+router.use(bodyParser.urlencoded({ extended: true }));
+router.use(expressValidator()); 
 router.use(methodOverride(function(req, res) {
     if (req.body && typeof req.body === 'object' && '_method' in req.body) {
         var method = req.body._method
@@ -20,6 +22,7 @@ router.use(methodOverride(function(req, res) {
     }
 
 }));
+
 
 // GET login
 router.get('/login', function(req, res) {
@@ -47,12 +50,23 @@ router.get('/blog', function(req, res) {
 
 // GET register.Render the registration form
 router.get('/register', function(req, res) {
-	res.render('register', { title: 'Registration'});
+	res.render('register', {});
 });
 
 // POST register. Save new user 
-router.post('/user', function(req, res) {
-    user.register(req, res);
+router.post('/register', function(req, res) {
+    req.checkBody("email", "Enter a valid email address").isEmail();
+    req.checkBody("password", "Password required 8 characters").isLength(8);
+
+    console.log("VALIDATION HEHEHEHERERERER");
+    var errors = req.validationErrors();
+    if (errors) {
+        console.log(errors);
+        res.render('register', { errors: errors });
+    } else {
+        console.log("registration with checking of valid email and password");
+        user.register(req, res);
+    }
 });
 
 // GET profile. It will call the function getProfile to get the data of users
@@ -69,6 +83,7 @@ router.put('/user/:id', function(req, res) {
 // GET logout. It will redirect to /login page
 router.get('/logout', function(req, res) {
     console.log("LOGOUT");
+    req.session = null
     res.redirect('/login');
 });
 
@@ -80,7 +95,6 @@ router.get('/blog/add', function(req, res) {
 
 // POST blog. It will call the function addBlog and save the new blog post
 router.post('/blog/add', function(req, res) {
-    //res.send(req.session.user._id);
     blog.addBlog(req, res);
 });
 
