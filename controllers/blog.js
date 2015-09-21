@@ -6,7 +6,7 @@ var addBlog = function(req, res) {
         title : req.body.blogTitle,
         body : req.body.blogBody,
         date : req.body.date,
-        author : req.body.author,
+        author : req.session.user.firstname,
         userId : req.session.user._id
     }, function (err, user) {
         if (err) {
@@ -22,12 +22,12 @@ var addBlog = function(req, res) {
 
 // Fetch all the blog data from blogs collections
 var blogList = function(req, res, cbblog) {
-	mongoose.model('Blog').find({userId : req.session.user._id}, function(err, blog) {
+    mongoose.model('Blog').find({}, function(err, blog) {
         if (err) {
             console.log("GET error: problem on retirieving blog id :: " + err);
             res.send("There was a problem retrieving blog id :: " + err);
         } else {
-			cbblog(blog);
+            cbblog(blog);
         }
     });
 }
