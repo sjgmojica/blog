@@ -36,7 +36,7 @@ var register = function(req, res) {
             res.send("There was a problem adding new users to database :: " + err);
         } else {
             console.log("POST new users ::" + user);
-            res.redirect('/login');
+            res.render('login', { message: 'Welcome to Blog App. Please login to your page'});
         }
     });
 }
