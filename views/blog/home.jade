@@ -26,7 +26,6 @@ block content
         = blog.author
         form(action='/blog/#{blog._id}', method='POST')
           input(type='hidden', value='DELETE', name='_method')
-          button(type='submit').
-            Delete
-        p 
+          button(type='submit') Delete
+          &nbsp;
           a(href='/blog/edit/#{blog._id}') Edit
