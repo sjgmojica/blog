@@ -1,7 +1,7 @@
 extends ../layout
 
 block content
-  nav.navbar.navbar-inverse.navbar-fixed-top
+  nav.navbar.navbar-default
     div.container
       div.navbar-header
         button(type='button', class='navbar-toggle collapsed')
@@ -9,32 +9,23 @@ block content
           span.icon-bar
           span.icon-bar
           span.icon-bar
-        p.navbar-brand Welcome to Blog Apps #{user.firstname} 
+        p.navbar-brand Bloggger #{user.firstname} 
       div.navbar-collapse.collapse(id='navbar')
         ul.nav.navbar-nav.pull-right
           li
             a(href='/user/#{user._id}') Update Profile
           li
-            a(href='/blog/add') Add Blog
+            a(href='/user/#{user._id}/blog') Blog
           li
             a(href='/logout') Logout
   div.container
-    div(style='padding:100px 15px')
+    div(style='padding:60px 15px')
       p #{message}
       if blogs && blogs.length > 0
         ul.list-group
           each blog, i in blogs
            li.list-group-item
-            = blog.title
-            br
-            = blog.body
-            br
-            = blog.date
-            br
-            = blog.author 
-            if user._id == blog.userId
-              form(action='/blog/#{blog._id}', method='POST')
-                input(type='hidden', value='DELETE', name='_method')
-                button(type='submit') Delete
-                &nbsp;
-                a(href='/blog/edit/#{blog._id}') Edit
+            h2 #{blog.title}
+            p #{blog.body}
+            p #{blog.date.toDateString()}
+            p #{blog.author}
