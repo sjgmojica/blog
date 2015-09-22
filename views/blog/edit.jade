@@ -1,20 +1,19 @@
 extends ../layout
 
 block content
-  p #{title}
-  hr
-  p #{blog}
-  form(name='updateBlog', action='/blog/#{blog._id}', method='POST')
-    p Title:
-      input(type='text', value='#{blog.title}', name='blogTitle')
-    p Body:
-      textarea(type='text', name='blogBody') #{blog.body}
-    p
-      input(type='hidden', value='PUT', name='_method')
-    p
-      button(type='submit') Update
-      &nbsp;
-      a(href='/blog')
-        button.btn.btn-primary(type='button') Cancel
+  div.container
+    p #{title}
+    form(name='updateBlog', action='/blog/#{blog._id}', method='POST')
+      p Title:
+        input(type='text', value='#{blog.title}', name='blogTitle')
+      p Body:
+        textarea(type='text', name='blogBody') #{blog.body}
+      p
+        input(type='hidden', value='PUT', name='_method')
+      p
+        button(type='submit') Update
+        &nbsp;
+        a(href='/blog')
+          button.btn.btn-primary(type='button') Cancel
 
 
