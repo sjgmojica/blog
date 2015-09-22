@@ -23,10 +23,22 @@ router.use(methodOverride(function(req, res) {
 
 }));
 
+function checkSession(req, res, target) {
+    if (!req.session.user) {
+        res.redirect(target);
+    }
+}
+router.get('/', function(req, res) {
+    checkSession(req, res, '/login');
+    res.redirect('/blog');
+});
 
 // GET login
 router.get('/login', function(req, res) {
-	res.render('login', { });
+    if (req.session.user) {
+        res.redirect('/blog');
+    }
+    res.render('login', {});
 });
 
 // POST login
@@ -43,14 +55,16 @@ router.get('/blog', function(req, res) {
         req.session.message = null;
 
     blog.blogList(req, res, function (bloglist) {
-        console.log(bloglist);
         res.render('blog/home', { user: req.session.user, message: message, blogs: bloglist});
     });
 });
 
 // GET register.Render the registration form
 router.get('/register', function(req, res) {
-	res.render('register', {});
+    if (req.session.user) {
+        res.redirect('/blog');
+    }
+    res.render('register', {});
 });
 
 // POST register. Save new user 
@@ -59,7 +73,6 @@ router.post('/register', function(req, res) {
     req.checkBody("password", "Password required 8 characters").isLength(8);
     var errors = req.validationErrors();
     if (errors) {
-        console.log(errors);
         res.render('register', { errors: errors });
     } else {
         console.log("registration with checking of valid email and password");
@@ -80,23 +93,29 @@ router.put('/user/:id', function(req, res) {
 
 // GET logout. It will redirect to /login page
 router.get('/logout', function(req, res) {
-    console.log("LOGOUT");
-    req.session = null
+    req.session.destroy();
     res.redirect('/login');
 });
 
+
 // GET new blog. render the new blog page
-router.get('/blog/add', function(req, res) {
+router.get('/user/:id/blog', function(req, res) {
+    blog.blogListById(req, res, function (bloglist) {
+        res.render('blog/blog', { user: req.session.user, blogs: bloglist});
+    });
+}); 
+
+router.get('/user/:id/blog/add', function(req, res) {
     res.render('blog/new', { title: 'Add New Blog'});
 });
 
 // POST blog. It will call the function addBlog and save the new blog post
-router.post('/blog/add', function(req, res) {
+router.post('/user/:id/blog/add', function(req, res) {
     blog.addBlog(req, res);
 });
 
 // GET blog. It will call the function getBlogById to fetch specific blog data for updates
-router.get('/blog/edit/:blog_id', function(req, res) {
+router.get('/user/:id/blog/:blog_id', function(req, res) {
     blog.getBlogById(req, res);
 });
 
@@ -106,8 +125,9 @@ router.put('/blog/:blog_id', function(req, res) {
 });
 
 //DELETE blog. It will call the function deleteBlog for deleting specific blog.
-router.delete('/blog/:blog_id', function(req, res) {
+router.delete('/user/:id/blog/:blog_id', function(req, res) {
     blog.deleteBlog(req, res);
 });
+
 
 module.exports = router;
