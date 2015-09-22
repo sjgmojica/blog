@@ -1,0 +1,25 @@
+extends ../layout
+
+block content
+  p Bloggger #{user.firstname}
+  br
+  a(href='/blog') Home 
+  br
+  a(href='/logout') Logout
+  div.container
+    div(style='padding:60px 15px')
+      a(href='/user/#{user._id}/blog/add') Add blog
+      p #{message}
+      if blogs && blogs.length > 0
+        ul.list-groups
+          each blog, i in blogs
+           li.list-group-item
+            h2 #{blog.title}
+            p #{blog.body}
+            p #{blog.date.toDateString()}
+            p #{blog.author} 
+            form(action='/user/#{user._id}/blog/#{blog._id}', method='POST')
+              input(type='hidden', value='DELETE', name='_method')
+              button(type='submit') Delete
+              &nbsp;
+              a(href='/user/#{user._id}/blog/#{blog._id}') Edit
