@@ -1,16 +1,14 @@
 extends ../layout
 
 block content
-  .container
-    h1 Add Blog
+  div.container
+    p Blog
     hr
-    form(role='form', action='/blog/add', method='POST', style='max-width: 300px;')
+    form(role='form', action='/user/:id/blog/add', method='POST', style='max-width: 300px;')
       .form-group
           input.form-control(type='text', name='blogTitle', placeholder='Title', required, autofocus)
       .form-group
           textarea(rows=10, type='text', name='blogBody', placeholder='Body', required)
-      //.form-group
-      //    input.form-control(type='author', name='author', placeholder='Author', required)
       button.btn.btn-primary(type='submit') Add Blog
       &nbsp;
       a(href='/blog')
